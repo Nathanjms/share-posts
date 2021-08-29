@@ -2,8 +2,9 @@
 
 class Users extends Controller
 {
-    public function __construct() {
-
+    public function __construct()
+    {
+        $this->userModel = $this->model('User');
     }
 
     public function register()
@@ -30,10 +31,14 @@ class Users extends Controller
             $data['email'] = trim($_POST['email']);
             $data['password'] = trim($_POST['password']);
             $data['confirm_password'] = trim($_POST['confirm_password']);
-            
+
             // Validations
             if (!$data['email']) {
                 $data['email_error'] = 'Please Enter a valid email address';
+            } else {
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_error'] = 'Email already in users';
+                }
             }
             if (!$data['name']) {
                 $data['name_error'] = 'Please Enter a Name';
@@ -49,10 +54,16 @@ class Users extends Controller
                 $data['confirm_password_error'] = 'Passwords did not match';
             }
 
-            if(!$data['email_error'] && !$data['name_error'] && !$data['password_error'] && !$data['confirm_password_error']) {
-                die('success');
+            if (!$data['email_error'] && !$data['name_error'] && !$data['password_error'] && !$data['confirm_password_error']) {
+                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+
+                if($this->userModel->register($data)) {
+                    redirect('users/login');
+                } else {
+                    die('Something went wrong');
+                }
             }
-        } 
+        }
 
         $this->view('users/register', $data);
     }
@@ -75,7 +86,7 @@ class Users extends Controller
             // POST data
             $data['email'] = trim($_POST['email']);
             $data['password'] = trim($_POST['password']);
-            
+
             // Validations
             if (!$data['email']) {
                 $data['email_error'] = 'Please Enter a valid email address';
@@ -86,7 +97,7 @@ class Users extends Controller
                 $data['password_error'] = 'password must be larger than 6 characters';
             }
 
-            if(!$data['email_error'] && !$data['password_error']) {
+            if (!$data['email_error'] && !$data['password_error']) {
                 die('success');
             }
         }
