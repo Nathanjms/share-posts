@@ -6,21 +6,21 @@
             <form action="<?= URLROUTE; ?>/users/register" method="post">
                 <div class="form-group">
                     <label for="name">Name: <sup>*</sup></label>
-                    <input type="text" name="name" id="name" class="form-control form-control-lg <?= (!empty($data['name_err'])) ? 'is-invalid' : ''; ?>">
-                    <span class="invalid-feedback"><?= $data['name_err']; ?></span>
+                    <input type="text" name="name" id="name" value="<?= $data['name']; ?>" class="form-control form-control-lg <?= (!empty($data['name_error'])) ? 'is-invalid' : ''; ?>">
+                    <span class="invalid-feedback"><?= $data['name_error']; ?></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email: <sup>*</sup></label>
-                    <input type="email" name="email" id="email" class="form-control form-control-lg <?= (!empty($data['email_err'])) ? 'is-invalid' : ''; ?>">
-                    <span class="invalid-feedback"><?= $data['email_err']; ?></span>
+                    <input type="email" name="email" id="email" value="<?= $data['email']; ?>" class="form-control form-control-lg <?= (!empty($data['email_error'])) ? 'is-invalid' : ''; ?>">
+                    <span class="invalid-feedback"><?= $data['email_error']; ?></span>
                 </div>
                 <div class="form-group">
                     <label for="password">Password: <sup>*</sup></label>
-                    <input type="password" name="password" id="password" class="form-control form-control-lg <?= (!empty($data['password_err'])) ? 'is-invalid' : ''; ?>">
-                    <span class="invalid-feedback"><?= $data['password_err']; ?></span>
+                    <input type="password" name="password" id="password" class="form-control form-control-lg <?= (!empty($data['password_error'])) ? 'is-invalid' : ''; ?>">
+                    <span class="invalid-feedback"><?= $data['password_error']; ?></span>
                 </div>
                 <div class="form-group">
-                    <label for="confirm_password">Name: <sup>*</sup></label>
+                    <label for="confirm_password">Confirm Password: <sup>*</sup></label>
                     <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-lg <?= (!empty($data['confirm_password_error'])) ? 'is-invalid' : ''; ?>">
                     <span class="invalid-feedback"><?= $data['confirm_password_error']; ?></span>
                 </div>
