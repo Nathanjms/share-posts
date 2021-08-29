@@ -10,3 +10,5 @@ define('APPROUTE', dirname(dirname(__FILE__)));
 define('URLROUTE', 'http://localhost:8080/shareposts');
 // Site Name
 define('SITENAME', 'SharePosts');
+// App Version
+define('APP_VERSION', '1.0.0');
