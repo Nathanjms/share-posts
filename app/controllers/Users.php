@@ -98,8 +98,18 @@ class Users extends Controller
                 $data['password_error'] = 'password must be larger than 6 characters';
             }
 
+            if (!$this->userModel->findUserByEmail($data['email'])) {
+                $data['email_error'] = 'Email not found.';
+            }
+
             if (!$data['email_error'] && !$data['password_error']) {
-                die('success');
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                if ($loggedInUser) {
+                    die('success');
+                } else {
+                    $data['password_error'] = 'Password incorrect';
+                    return $this->view('users/login', $data);
+                }
             }
         }
 

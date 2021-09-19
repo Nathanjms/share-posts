@@ -26,4 +26,19 @@ class User
         return $this->db->single();
         return $this->db->rowCount() > 0;
     }
+
+    public function login($email, $password)
+    {
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        $hashedPassword = $row->password;
+        if (password_verify($password, $hashedPassword)) {
+            return $row;
+        }
+
+        return false;
+    }
 }
