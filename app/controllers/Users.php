@@ -105,7 +105,7 @@ class Users extends Controller
             if (!$data['email_error'] && !$data['password_error']) {
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
                 if ($loggedInUser) {
-                    die('success');
+                    $this->createUserSession($loggedInUser);
                 } else {
                     $data['password_error'] = 'Password incorrect';
                     return $this->view('users/login', $data);
@@ -114,5 +114,27 @@ class Users extends Controller
         }
 
         $this->view('users/login', $data);
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['user_email']);
+        session_destroy();
+        redirect('users/login');
+    }
+
+    public function createUserSession($user)
+    {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_name'] = $user->name;
+        $_SESSION['user_email'] = $user->email;
+        redirect('pages/index');
+    }
+
+    public function isLoggedIn()
+    {
+        return isset($_SESSION['user_id']);
     }
 }
