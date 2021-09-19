@@ -130,11 +130,6 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_email'] = $user->email;
-        redirect('pages/index');
-    }
-
-    public function isLoggedIn()
-    {
-        return isset($_SESSION['user_id']);
+        redirect('posts');
     }
 }
