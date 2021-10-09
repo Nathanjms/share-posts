@@ -42,4 +42,13 @@ class Post
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+
+    public function editPost($data, $id)
+    {
+        $this->db->query('Update posts set title = :title, body = :body WHERE id = :id');
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':body', $data['body']);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
 }
