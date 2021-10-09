@@ -22,11 +22,42 @@ class Posts extends Controller
 
     public function add()
     {
-        $posts = $this->postModel->getPosts();
         $data = [
             'title' => '',
-            'body' => ''
+            'body' => '',
+            'title_error' => '',
+            'body_error' => ''
         ];
+        // Check for POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST date
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // POST data
+            $data['title'] = trim($_POST['title']);
+            $data['body'] = trim($_POST['body']);
+            $data['user_id'] = $_SESSION['user_id'];
+
+            // Validations
+            if (!$data['title']) {
+                $data['title_error'] = 'Please enter a valid title address';
+            } elseif (strlen($data['title']) > 255) {
+                $data['title_error'] = 'Title must be less than than 256 characters';
+            
+            }
+            
+            if (!$data['body']) {
+                $data['body_error'] = 'Please Enter a valid body';
+            } 
+
+            if (!$data['title_error'] && !$data['body_error']) {
+                if($this->postModel->addPost($data)) {
+                    flash('post_message', 'Post Added');
+                    return redirect('/posts/add');
+                } 
+                flash('post_message', 'Something went wrong when adding post :c', 'alert alert-danger');
+                return redirect('/posts/add');
+            }
+        }
 
         $this->view('posts/add', $data);
     }

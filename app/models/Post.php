@@ -9,15 +9,6 @@ class Post
         $this->db = new Database();
     }
 
-    public function register($data)
-    {
-        $this->db->query('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
-        $this->db->bind(':name', $data['name']);
-        $this->db->bind(':email', $data['email']);
-        $this->db->bind(':password', $data['password']);
-        return $this->db->execute();
-    }
-
     public function getPosts()
     {
         $this->db->query("
@@ -36,18 +27,12 @@ class Post
         return $results;
     }
 
-    public function login($email, $password)
+    public function addPost($data)
     {
-        $this->db->query('SELECT * FROM users WHERE email = :email');
-        $this->db->bind(':email', $email);
-
-        $row = $this->db->single();
-
-        $hashedPassword = $row->password;
-        if (password_verify($password, $hashedPassword)) {
-            return $row;
-        }
-
-        return false;
+        $this->db->query('INSERT INTO posts (title, body, user_id) VALUES (:title, :body, :user_id)');
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':body', $data['body']);
+        $this->db->bind(':user_id', $data['user_id']);
+        return $this->db->execute();
     }
 }

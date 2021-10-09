@@ -17,7 +17,7 @@ function flash($name = '', $message = '', $class = 'alert alert-success')
             $_SESSION[$name] = $message;
             $_SESSION[$name . '_class'] = $class;
         } elseif (empty($message) && !empty($_SESSION[$name])) {
-            $class = !empty($session[$name . '_class']) ? $_SESSION[$name . '_class'] : $class;
+            $class = !empty($_SESSION[$name . '_class']) ? $_SESSION[$name . '_class'] : $class;
             echo '<div class="' . $class . '">' . $_SESSION[$name] . '</div>';
             unset($_SESSION[$name]);
             unset($_SESSION[$name . '_class']);

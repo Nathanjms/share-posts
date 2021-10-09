@@ -1,5 +1,6 @@
 <a href="<?= URLROUTE; ?>/posts" class="btn btn-light w-100"><i class="fas fa-long-arrow-alt-left"></i></a>
 <div class="card card-body bg-light mt-3">
+    <?= flash('post_message'); ?>
     <h2>Add Post</h2>
     <p>Create a post with this form</p>
     <form action="<?= URLROUTE; ?>/posts/add" method="post">
@@ -10,7 +11,7 @@
         </div>
         <div class="form-group">
             <label for="body">Body: <sup>*</sup></label>
-            <textarea name="body" id="body" class="form-control form-control-lg <?= (!empty($data['body_error'])) ? 'is-invalid' : ''; ?>"><?= $data['title']; ?></textarea>
+            <textarea name="body" id="body" class="form-control form-control-lg <?= (!empty($data['body_error'])) ? 'is-invalid' : ''; ?>"><?= $data['body']; ?></textarea>
             <span class="invalid-feedback"><?= $data['body_error']; ?></span>
         </div>
         <input type="submit" value="Login" class="btn btn-success mt-2 w-100">
