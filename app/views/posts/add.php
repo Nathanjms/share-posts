@@ -14,6 +14,6 @@
             <textarea name="body" id="body" class="form-control form-control-lg <?= (!empty($data['body_error'])) ? 'is-invalid' : ''; ?>"><?= $data['body']; ?></textarea>
             <span class="invalid-feedback"><?= $data['body_error']; ?></span>
         </div>
-        <input type="submit" value="Login" class="btn btn-success mt-2 w-100">
+        <input type="submit" value="Submit" class="btn btn-success mt-2 w-100">
     </form>
 </div>

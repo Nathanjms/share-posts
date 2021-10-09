@@ -14,7 +14,7 @@
         <div class="bg-light p-2 mb-3">
             Written by: <?= $post->name; ?> on <?= $post->postCreated; ?>
         </div>
-        <p class="card-text"><?= $post->body; ?></p>
+        <p class="card-text"><?= strlen($post->body) > 80 ? substr($post->body, 0, 77) . '...' : $post->body; ?></p>
         <a class="btn btn-dark btn-block" href="<?= URLROUTE; ?>/posts/show/<?= $post->postId; ?>">More</a>
     </div>
 <?php endforeach; ?>
