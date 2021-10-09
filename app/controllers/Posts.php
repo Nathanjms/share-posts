@@ -66,6 +66,11 @@ class Posts extends Controller
     public function show($id)
     {
         $post = $this->postModel->getPostById($id);
+        if(!$post) {
+            flash('post_message', 'Post Not found', 'alert alert-danger');
+            return redirect('posts');
+        }
+
         $user = $this->userModel->getUserById($post->user_id);
 
         $data = [
@@ -79,8 +84,14 @@ class Posts extends Controller
     {
         $post = $this->postModel->getPostById($id);
 
+        if(!$post) {
+            flash('post_message', 'Post Not found', 'alert alert-danger');
+            return redirect('posts');
+        }
+
         if($post->user_id != $_SESSION['user_id']) {
-            redirect('posts');
+            flash('post_message', 'Insufficient Permissions', 'alert alert-danger');
+            return redirect('posts/show/' . $id);
         }
 
         $data = [
