@@ -8,6 +8,7 @@ class Posts extends Controller
         }
 
         $this->postModel = $this->model('Post');
+        $this->userModel = $this->model('User');
     }
 
     public function index()
@@ -52,13 +53,25 @@ class Posts extends Controller
             if (!$data['title_error'] && !$data['body_error']) {
                 if($this->postModel->addPost($data)) {
                     flash('post_message', 'Post Added');
-                    return redirect('/posts/add');
+                    return redirect('posts/add');
                 } 
                 flash('post_message', 'Something went wrong when adding post :c', 'alert alert-danger');
-                return redirect('/posts/add');
+                return redirect('posts/add');
             }
         }
 
         $this->view('posts/add', $data);
+    }
+    
+    public function show($id)
+    {
+        $post = $this->postModel->getPostById($id);
+        $user = $this->userModel->getUserById($post->user_id);
+
+        $data = [
+            'post' => $post,
+            'user' => $user,
+        ];
+        $this->view('posts/show', $data);
     }
 }
