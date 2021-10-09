@@ -17,6 +17,9 @@
         <ul class="navbar-nav ml-auto mb-2 mb-md-0">
           <?php if(isLoggedIn()) : ?>
             <li class="nav-item">
+              <span class="nav-link">Welcome <?= $_SESSION['user_name']; ?></span>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="<?= URLROUTE; ?>/users/logout">Log Out</a>
             </li>
           <?php else : ?>
