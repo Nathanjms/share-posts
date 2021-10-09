@@ -33,7 +33,11 @@ class Post
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':body', $data['body']);
         $this->db->bind(':user_id', $data['user_id']);
-        return $this->db->execute();
+        if ($this->db->execute()) {
+            $this->db->query('SELECT LAST_INSERT_ID() AS newId');
+            return $this->db->single()->newId ?? false;
+        }
+        return false;
     }
 
     public function getPostById($id)
@@ -48,6 +52,13 @@ class Post
         $this->db->query('Update posts set title = :title, body = :body WHERE id = :id');
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':body', $data['body']);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
+    
+    public function deletePost($id)
+    {
+        $this->db->query('delete from posts WHERE id = :id');
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }

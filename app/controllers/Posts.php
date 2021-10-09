@@ -51,9 +51,10 @@ class Posts extends Controller
             } 
 
             if (!$data['title_error'] && !$data['body_error']) {
-                if($this->postModel->addPost($data)) {
-                    flash('post_message', 'Post Added');
-                    return redirect('posts/add');
+                $insertId = $this->postModel->addPost($data);
+                if($insertId) {
+                    flash('post_message', 'Post Added with ID ' . $insertId);
+                    return redirect('posts/show/' . $insertId);
                 } 
                 flash('post_message', 'Something went wrong when adding post :c', 'alert alert-danger');
                 return redirect('posts/add');
@@ -133,5 +134,30 @@ class Posts extends Controller
         }
 
         $this->view('posts/edit', $data);
+    }
+
+    public function delete($id)
+    {
+        $post = $this->postModel->getPostById($id);
+
+        if(!$post) {
+            flash('post_message', 'Post Not found', 'alert alert-danger');
+            return redirect('posts');
+        }
+
+        if($post->user_id != $_SESSION['user_id']) {
+            flash('post_message', 'Insufficient Permissions', 'alert alert-danger');
+            return redirect('posts/show/' . $id);
+        }
+        // Check for POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            if($this->postModel->deletePost($id)) {
+                flash('post_message', 'Post Deleted Successfully');
+                return redirect('posts');
+            } 
+        }
+        flash('post_message', 'Something went wrong when deleting post :c', 'alert alert-danger');
+        return redirect('posts/show/' . $id);
     }
 }
